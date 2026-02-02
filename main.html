@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ALONE MD | Pairing Code</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+/* --- 1. Variables & Reset --- */
+:root {
+    --neon-blue: #3b82f6; /* ALONE MD Blue */
+    --neon-cyan: #06b6d4; 
+    --bg-dark: #0f172a;    /* Matching main.html bg */
+    --glass: rgba(30, 41, 59, 0.7);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--bg-dark);
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+    color: #fff;
+}
+
+/* --- 2. Entry Animation --- */
+#intro-gate {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+}
+
+.gate-panel {
+    width: 50%;
+    height: 100%;
+    background: #000;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 1.5s cubic-bezier(0.77, 0, 0.175, 1);
+    z-index: 2;
+}
+
+.gate-left {
+    background: linear-gradient(135deg, #000, #0f172a);
+    border-right: 2px solid var(--neon-blue);
+    box-shadow: 5px 0 50px rgba(59, 130, 246, 0.3);
+}
+
+.gate-right {
+    background: linear-gradient(225deg, #000, #0f172a);
+    border-left: 2px solid var(--neon-cyan);
+    box-shadow: -5px 0 50px rgba(6, 182, 212, 0.3);
+}
+
+.intro-content {
+    position: absolute;
+    z-index: 10000;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    transition: opacity 0.5s;
+}
+
+.btn-start {
+    background: transparent;
+    border: 2px solid var(--neon-blue);
+    color: var(--neon-blue);
+    padding: 15px 40px;
+    font-family: 'Audiowide', sans-serif;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+    transition: 0.3s;
+}
+
+.btn-start:hover {
+    background: var(--neon-blue);
+    color: #fff;
+    box-shadow: 0 0 50px rgba(59, 130, 246, 0.8);
+}
+
+body.loaded .gate-left { transform: translateX(-100%); }
+body.loaded .gate-right { transform: translateX(100%); }
+body.loaded .intro-content { opacity: 0; pointer-events: none; }
+body.loaded #intro-gate { pointer-events: none; }
+
+/* --- 3. Main Glass Card --- */
+.container {
+    position: relative;
+    z-index: 10;
+    width: 90%;
+    max-width: 460px;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition-delay: 0.8s;
+}
+
+body.loaded .container {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.card {
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    border-radius: 30px;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 50px 30px;
+    text-align: center;
+    box-shadow: 0 0 60px rgba(0,0,0,0.8);
+    position: relative;
+    overflow: hidden;
+}
+
+.card-inner-bg {
+    position: absolute; inset: 2px;
+    background: rgba(15, 23, 42, 0.9);
+    border-radius: 28px;
+    z-index: -1;
+}
+
+/* --- 4. LOGO STYLE --- */
+.logo-wrapper {
+    position: relative;
+    width: 130px;
+    height: 130px;
+    margin: 0 auto 30px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.logo-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--neon-blue);
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+    z-index: 2;
+}
+
+.logo-ring-1 {
+    position: absolute;
+    width: 115px; height: 115px;
+    border-radius: 50%;
+    border: 4px solid transparent;
+    border-top-color: var(--neon-blue);
+    border-bottom-color: var(--neon-cyan);
+    animation: spin 3s linear infinite;
+}
+
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
+/* --- 5. Content --- */
+h2 {
+    font-family: 'Audiowide', cursive;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 28px;
+    margin-bottom: 5px;
+    color: #fff;
+    text-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+}
+
+.version {
+    font-size: 11px;
+    font-weight: bold;
+    padding: 3px 12px;
+    border-radius: 50px;
+    background: rgba(59, 130, 246, 0.2);
+    border: 1px solid var(--neon-blue);
+    display: inline-block;
+    margin-bottom: 25px;
+    color: #60a5fa;
+}
+
+.input-wrapper {
+    position: relative;
+    margin-bottom: 20px;
+}
+.input-wrapper input {
+    width: 100%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 15px 45px 15px 20px;
+    color: #fff;
+    border-radius: 15px;
+    outline: none;
+    transition: 0.3s;
+}
+.input-wrapper input:focus {
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 25px rgba(59, 130, 246, 0.2);
+}
+
+.btn-connect {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 15px;
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-cyan));
+    color: #fff;
+    font-weight: bold;
+    font-family: 'Audiowide', cursive;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.btn-connect:hover {
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+    transform: scale(1.02);
+}
+
+.footer {
+    margin-top: 35px;
+    font-size: 12px; 
+    color: rgba(255, 255, 255, 0.6);
+    font-family: 'Audiowide', sans-serif;
+}
+.footer span { color: var(--neon-blue); }
+
+</style>
+</head>
+<body>
+
+    <audio id="bg-music" loop>
+        <source src="https://files.catbox.moe/xmtpr1.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="intro-gate">
+        <div class="gate-panel gate-left"></div>
+        <div class="gate-panel gate-right"></div>
+        <div class="intro-content">
+            <div style="font-family:'Audiowide'; color:var(--neon-blue); margin-bottom:15px; letter-spacing:3px; font-size:12px;">
+                ALONE TECH SYSTEM READY
+            </div>
+            <button class="btn-start" id="start-btn">
+                INITIALIZE BOT
+            </button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-inner-bg"></div>
+
+            <div class="logo-wrapper">
+                <div class="logo-ring-1"></div>
+                <img src="https://files.catbox.moe/1m4824.jpeg" alt="ALONE MD" class="logo-img">
+            </div>
+
+            <h2>ALONE MD</h2>
+            <div class="version">Version 1.0.0</div>
+
+            <div class="input-wrapper">
+                <input type="number" id="number" placeholder="94703229822">
+                <i class="fas fa-mobile-alt" style="position:absolute; right:15px; top:50%; transform:translateY(-50%); color:var(--neon-blue)"></i>
+            </div>
+
+            <button class="btn-connect" id="submit">
+                Get Pairing Code
+            </button>
+
+            <div id="result" style="margin-top: 20px;"></div>
+
+            <div class="footer">
+                DEVELOPED BY <span>AKARSHANA</span>
+            </div>
+        </div>
+    </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js"></script>
+<script>
+    const startBtn = document.getElementById('start-btn');
+    const audio = document.getElementById('bg-music');
+    
+    startBtn.addEventListener('click', () => {
+        audio.volume = 0.4;
+        audio.play().catch(() => {});
+        document.body.classList.add('loaded');
+    });
+
+    const resultDiv = document.getElementById('result');
+    const btn = document.getElementById('submit');
+    const input = document.getElementById('number');
+
+    btn.onclick = async () => {
+        const num = input.value.replace(/\D/g, "");
+        if(num.length < 10) {
+            resultDiv.innerHTML = "<span style='color:#ef4444;'>⚠️ Invalid Number!</span>";
+            return;
+        }
+
+        resultDiv.innerHTML = "<span style='color:#60a5fa;'><i class='fas fa-sync fa-spin'></i> Generating Code...</span>";
+        
+        try {
+            const {data} = await axios(`/code?number=${num}`);
+            let code = data.code || "ERROR";
+            resultDiv.innerHTML = `
+                <div style="padding:15px; border:2px dashed #3b82f6; border-radius:10px; font-family:'Audiowide'; color:#3b82f6; font-size:24px; cursor:pointer;" 
+                onclick="navigator.clipboard.writeText('${code}'); alert('Code Copied!')">
+                    ${code}
+                </div>`;
+        } catch {
+            resultDiv.innerHTML = "<span style='color:#ef4444;'>❌ Request Failed!</span>";
+        }
+    }
+</script>
+</body>
+</html>
