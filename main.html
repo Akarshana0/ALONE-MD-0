@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALONE MD | SYSTEM ACTIVE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00ffcc; /* Cyber Cyan */
+            --secondary: #ff00ff; /* Neon Magenta */
+            --bg: #050505;
+            --glass: rgba(10, 20, 30, 0.6);
+            --border: rgba(0, 255, 204, 0.3);
+            --text-dim: rgba(255, 255, 255, 0.6);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: #fff;
+            font-family: 'Oxanium', sans-serif;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* 1. BACKGROUND GRID ANIMATION */
+        .grid-bg {
+            position: absolute; inset: 0;
+            background-image: 
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: center center;
+            opacity: 0.1;
+            z-index: 0;
+            animation: gridMove 20s linear infinite;
+        }
+        @keyframes gridMove { 0% { transform: translateY(0); } 100% { transform: translateY(50px); } }
+
+        /* 2. SYSTEM HUD (Top Bar) */
+        .hud-top {
+            position: absolute; top: 0; left: 0; width: 100%;
+            padding: 15px 25px;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 20;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--primary);
+        }
+        .status-dot {
+            height: 8px; width: 8px; background: #0f0;
+            border-radius: 50%; display: inline-block;
+            box-shadow: 0 0 10px #0f0;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink { 50% { opacity: 0.3; } }
+
+        /* 3. LIVE TERMINAL (Bottom Left) */
+        .terminal-box {
+            position: absolute; bottom: 20px; left: 20px;
+            width: 250px; height: 150px;
+            background: rgba(0, 0, 0, 0.7);
+            border-left: 2px solid var(--primary);
+            padding: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            overflow: hidden;
+            z-index: 10;
+            pointer-events: none;
+            display: flex; flex-direction: column-reverse; /* Newest at bottom */
+        }
+        .log-entry { margin-bottom: 4px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .log-entry span { color: var(--secondary); }
+
+        /* 4. MAIN CARD */
+        .container {
+            position: relative; z-index: 10;
+            width: 90%; max-width: 420px;
+            background: var(--glass);
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--border);
+            border-radius: 0; /* Boxy Cyber Look */
+            padding: 40px 30px;
+            box-shadow: 0 0 30px rgba(0, 255, 204, 0.1);
+            clip-path: polygon(
+                0 0, 100% 0, 100% 85%, 90% 100%, 0 100%
+            ); /* Cyberpunk Shape */
+        }
+
+        /* Glitch Title */
+        h1 {
+            font-size: 2.2rem; font-weight: 800; text-align: center;
+            color: #fff; text-transform: uppercase; letter-spacing: 3px;
+            text-shadow: 2px 2px 0px var(--secondary);
+            margin-bottom: 5px;
+        }
+        .owner {
+            text-align: center; font-size: 0.8rem; color: var(--text-dim);
+            margin-bottom: 30px; letter-spacing: 2px;
+        }
+        .owner b { color: var(--primary); }
+
+        /* Input */
+        .input-box {
+            position: relative; margin-bottom: 25px;
+            border-bottom: 2px solid var(--border);
+        }
+        input {
+            width: 100%; background: transparent; border: none;
+            padding: 15px 5px; color: #fff;
+            font-family: 'Oxanium', sans-serif; font-size: 1.2rem;
+            outline: none; letter-spacing: 2px;
+        }
+        input::placeholder { color: rgba(255,255,255,0.2); }
+        .input-label {
+            position: absolute; top: -10px; left: 0;
+            font-size: 0.7rem; color: var(--primary);
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        /* Button */
+        button {
+            width: 100%; padding: 18px;
+            background: rgba(0, 255, 204, 0.1);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            font-family: 'Oxanium', sans-serif; font-weight: 700;
+            font-size: 1rem; text-transform: uppercase; letter-spacing: 2px;
+            cursor: pointer; transition: 0.3s;
+            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+        }
+        button:hover {
+            background: var(--primary); color: #000;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        /* Result Box */
+        #result-box {
+            margin-top: 20px; display: none;
+            background: rgba(0,0,0,0.5); padding: 15px;
+            border: 1px dashed var(--secondary);
+            text-align: center;
+        }
+        .code-txt {
+            font-family: 'JetBrains Mono', monospace; font-size: 1.5rem;
+            color: var(--secondary); font-weight: 700; letter-spacing: 3px;
+        }
+        .copy-hint { font-size: 0.7rem; color: #777; margin-top: 5px; }
+
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            .terminal-box { display: none; } /* Hide heavy terminal on mobile */
+            .hud-top { font-size: 0.7rem; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="grid-bg"></div>
+    
+    <div class="hud-top">
+        <div><span class="status-dot"></span> SYSTEM ONLINE</div>
+        <div id="ping-counter">PING: 24ms</div>
+        <div>VER: 4.0.1</div>
+    </div>
+
+    <div class="terminal-box" id="terminal">
+        </div>
+
+    <div class="container">
+        <h1>ALONE MD</h1>
+        <p class="owner">CREATED BY <b>AKARSHANA</b></p>
+
+        <div class="input-box">
+            <span class="input-label">Enter Mobile Number</span>
+            <input type="tel" id="number" placeholder="9477xxxxxxx" autocomplete="off">
+        </div>
+
+        <button onclick="getPairingCode()" id="action-btn">
+            CONNECT TO SERVER
+        </button>
+
+        <div id="result-box" onclick="copyCode()">
+            <div class="code-txt" id="code">...</div>
+            <div class="copy-hint" id="msg">CLICK TO COPY</div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.0/axios.min.js"></script>
+    <script>
+        // --- 1. LIVE TERMINAL EFFECT ---
+        const terminal = document.getElementById('terminal');
+        const logs = [
+            "Initializing handshake...",
+            "Checking server integrity...",
+            "Connection stable (Secure)",
+            "Loading assets...",
+            "Bypassing firewall...",
+            "Optimizing protocols...",
+            "User detected: ANONYMOUS",
+            "Syncing database...",
+            "Waiting for input..."
+        ];
+
+        function addLog() {
+            const randomLog = logs[Math.floor(Math.random() * logs.length)];
+            const time = new Date().toLocaleTimeString('en-US', {hour12:false, hour:"2-digit", minute:"2-digit", second:"2-digit"});
+            const div = document.createElement('div');
+            div.className = 'log-entry';
+            div.innerHTML = `<span>[${time}]</span> ${randomLog}`;
+            terminal.prepend(div);
+            
+            if(terminal.children.length > 6) terminal.lastChild.remove();
+            
+            setTimeout(addLog, Math.random() * 2000 + 1000);
+        }
+        addLog();
+
+        // --- 2. PING SIMULATOR ---
+        setInterval(() => {
+            const ping = Math.floor(Math.random() * 40) + 10;
+            document.getElementById('ping-counter').innerText = `PING: ${ping}ms`;
+        }, 2000);
+
+        // --- 3. PAIRING LOGIC ---
+        let finalCode = "";
+        
+        async function getPairingCode() {
+            const numInput = document.getElementById('number');
+            const btn = document.getElementById('action-btn');
+            const resultBox = document.getElementById('result-box');
+            const codeDisplay = document.getElementById('code');
+
+            const number = numInput.value.replace(/[^0-9]/g, '');
+
+            if (number.length < 10) {
+                alert("ACCESS DENIED: Invalid Number");
+                return;
+            }
+
+            // Button Loading State
+            btn.innerHTML = "EXECUTING...";
+            btn.style.opacity = "0.5";
+            
+            // Add Fake Log
+            const div = document.createElement('div');
+            div.className = 'log-entry';
+            div.innerHTML = `<span style="color:#00ffcc">[COMMAND]</span> Requesting Pair Code for ${number}...`;
+            terminal.prepend(div);
+
+            try {
+                // API CALL (Replace with your actual API)
+                const { data } = await axios.get(`/code?number=${number}`);
+                finalCode = data.code || data.pairingCode;
+
+                resultBox.style.display = "block";
+                codeDisplay.innerText = finalCode;
+                
+                // Add Success Log
+                const successDiv = document.createElement('div');
+                successDiv.className = 'log-entry';
+                successDiv.innerHTML = `<span style="color:#0f0">[SUCCESS]</span> Code Received.`;
+                terminal.prepend(successDiv);
+
+            } catch (e) {
+                resultBox.style.display = "block";
+                codeDisplay.innerText = "FAILED";
+                codeDisplay.style.color = "red";
+            } finally {
+                btn.innerHTML = "CONNECT TO SERVER";
+                btn.style.opacity = "1";
+            }
+        }
+
+        function copyCode() {
+            if(!finalCode) return;
+            navigator.clipboard.writeText(finalCode);
+            document.getElementById('msg').innerText = "COPIED TO CLIPBOARD";
+            document.getElementById('msg').style.color = "#00ffcc";
+            setTimeout(() => {
+                document.getElementById('msg').innerText = "CLICK TO COPY";
+                document.getElementById('msg').style.color = "#777";
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
